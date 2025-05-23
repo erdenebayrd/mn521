@@ -7,7 +7,7 @@
   tasks:
     - name: Gather Facts using ios_facts module
       ios_facts:
-      register: ios_facts_result
+      register: ios_facts_resulat
 
     - name: Display Gathered Facts Before Setting Hostname
       debug:
