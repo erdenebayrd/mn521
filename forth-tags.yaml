@@ -1,0 +1,16 @@
+---
+- name: Demonstrate Ansible Tags
+  hosts: localhost
+  gather_facts: false  # Disable gathering facts for simplicity
+
+  tasks:
+    - name: Task 1
+      command: echo "Task 1"
+      tags:
+        - tag1
+        - tag2
+
+    - name: Task 2
+      command: echo "Task 2"
+      tags:
+        - tag3
