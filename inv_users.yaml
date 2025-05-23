@@ -1,0 +1,18 @@
+all:
+  children:
+    cisco_devices:
+      hosts:
+        10.10.10.3:
+          ansible_ssh_user: user1
+          ansible_ssh_pass: secret
+          ansible_network_os: ios
+          router_hostname: Router1
+        10.10.10.4:
+          ansible_ssh_user: user2
+          ansible_ssh_pass: secret
+          ansible_network_os: ios
+          router_hostname: Router2
+      vars:
+        ansible_connection: network_cli
+        ansible_become: yes
+        ansible_become_method: enable
