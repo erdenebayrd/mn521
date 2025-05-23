@@ -1,2 +1,31 @@
 ---
-# tasks file for MN521-AnsibleLab-Role
+# tasks file for MN512-AnsibleLab-Role
+- name: Gather network device facts
+  ios_facts:
+    gather_subset: all
+
+- name: Display device hostname
+  debug:
+    msg: "Device hostname is {{ ansible_net_hostname }}"
+
+- name: Show running configuration
+  ios_command:
+    commands:
+      - show running-config
+  register: running_config
+
+- name: Display running config (first 10 lines)
+  debug:
+    msg: "{{ running_config.stdout[0].split('\n')[:10] }}"
+
+- name: Configure interface description
+  ios_config:
+    lines:
+      - description "Configured by Ansible"
+    parents: interface GigabitEthernet0/0
+  when: configure_interface | default(false)
+
+- name: Save configuration
+  ios_config:
+    save_when: always
+  when: save_config | default(false)

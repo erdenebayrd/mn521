@@ -1,0 +1,6 @@
+---
+- name: Network Automation with Ansible Role
+  hosts: cisco_devices
+  gather_facts: no
+  roles:
+    - MN512-AnsibleLab-Role
