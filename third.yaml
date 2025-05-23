@@ -1,0 +1,45 @@
+---
+- name: Update and Verify Hostname on Cisco IOS Devices
+  hosts: cisco_devices
+  gather_facts: no
+  connection: ansible.netcommon.network_cli  # Specify the connection type for the entire playbook
+
+  tasks:
+    - name: Gather Facts using ios_facts module
+      ios_facts:
+      register: ios_facts_result
+
+    - name: Display Gathered Facts Before Setting Hostname
+      debug:
+        var: ios_facts_result
+
+    - name: Set New Hostname
+      ios_config:
+        lines:
+          - hostname AgainRouterHostname
+      register: set_hostname_result
+
+    - name: Display Set Hostname Result
+      debug:
+        var: set_hostname_result
+
+    - name: Display Updated Facts
+      ios_facts:
+      register: updated_facts_result
+
+    - name: Display Gathered Facts After Setting Hostname
+      debug:
+        var: updated_facts_result
+
+    - name: Gather Interface Facts
+      ios_facts:
+        gather_subset: interfaces
+      register: interface_facts_result
+      tags:
+        - facts
+
+    - name: Display Interface Facts
+      debug:
+        var: interface_facts_result
+      tags:
+        - facts
