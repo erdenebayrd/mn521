@@ -1,0 +1,30 @@
+all:
+  children:
+    core:
+      hosts:
+        core1:
+          ansible_host: 10.0.0.1
+        core2:
+          ansible_host: 10.0.0.2
+    aggregation:
+      hosts:
+        agg1:
+          ansible_host: 10.0.0.3
+        agg2:
+          ansible_host: 10.0.0.4
+    access:
+      hosts:
+        acc1:
+          ansible_host: 10.0.0.5
+        acc2:
+          ansible_host: 10.0.0.6
+    servers:
+      hosts:
+        srv1:
+          ansible_host: 10.0.0.11
+        srv2:
+          ansible_host: 10.0.0.12
+        srv3:
+          ansible_host: 10.0.0.13
+        srv4:
+          ansible_host: 10.0.0.14

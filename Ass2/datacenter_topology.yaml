@@ -1,0 +1,31 @@
+---
+- name: Configure Data Center Topology
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Configure VLANs on access switches
+      when: "'acc' in inventory_hostname"
+      ios_config:
+        lines:
+          - vlan 10
+          - name SERVERS
+          - vlan 20
+          - name ADMIN
+    - name: Configure interfaces on access switches
+      when: "'acc' in inventory_hostname"
+      ios_config:
+        lines:
+          - interface range g0/1-2
+          - switchport mode access
+          - switchport access vlan 10
+          - no shutdown
+    - name: Configure OSPF on core and aggregation routers
+      when: "'core' in inventory_hostname or 'agg' in inventory_hostname"
+      ios_config:
+        lines:
+          - router ospf 1
+          - network 10.0.0.0 0.0.0.255 area 0
+          - network 10.1.0.0 0.0.0.255 area 0
+    - name: Assign IP addresses to server interfaces
+      when: "'srv' in inventory_hostname"
+      ansible.builtin.command: ip addr add 192.168.10.{{ inventory_hostname[-1] }}/24 dev eth0
