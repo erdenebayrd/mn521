@@ -1,0 +1,47 @@
+---
+# tasks file for Router Interface Configuration
+- name: Interface Configuration
+  ios_l3_interfaces:
+    config:
+      - name: "{{ router_interfaces[router_hostname].interface }}"
+        ipv4:
+          - address: "{{ router_interfaces[router_hostname].ip_address }}"
+    state: merged
+  register: int
+
+- debug:
+    var: int.before
+
+- debug:
+    var: int.commands
+
+- debug:
+    var: int.after
+
+---
+# vars file for MN521_AnsibleLab_Role
+
+ansible_network_os: ios
+ansible_connection: network_cli
+ansible_ssh_user: cisco
+#ansible_ssh_pass: secret
+ansible_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  38656231666265353635333132346333336562393139626531333138616338613539653066633738
+  3262376562631643434736313831343634353965373032380a56165c31265313265333766333266
+  356334373335643231396125336437356666346232396394636136538316503335396437
+  6130393166396632330a636465376363370336320616166666346466383383352623638232033
+  3932
+
+# Router Interfaces
+router_interfaces:
+  Router-1:  # Same as the router hostname for better understanding
+    interface: FastEthernet0/1
+    ip_address: 192.168.1.10/24
+
+  Router-2:  # Same as the router hostname for better understanding
+    interface: FastEthernet0/1
+    ip_address: 192.168.2.11/24
+
+- include_tasks: 1_main.yaml
+- include_tasks: 2_main.yaml
